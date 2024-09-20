@@ -11,7 +11,6 @@ const TruliooVerification = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-
     const urlParams = new URLSearchParams(window.location.search);
     const shortCodeParam = urlParams.get("code");
 
@@ -38,21 +37,15 @@ const TruliooVerification = () => {
 
   const handleStartVerification = async () => {
     setIsLoading(true);
-    setMessage(""); 
+    setMessage("");
     try {
       const transactionData = await fetchTransaction();
       if (!transactionData.success) throw new Error(transactionData.error);
 
-      console.log(
-        "Transaction created successfully:",
-        transactionData.transactionId
-      );
-
       const shortCodeData = await fetchShortCode();
       if (!shortCodeData.success) throw new Error(shortCodeData.error);
 
-      setShortCode(shortCodeData.shortCode); 
-      console.log("Obtained shortCode:", shortCodeData.shortCode);
+      setShortCode(shortCodeData.shortCode);
     } catch (error) {
       console.error("Error during verification setup:", error);
       setMessage(`Error: ${error.message}`);
@@ -62,12 +55,12 @@ const TruliooVerification = () => {
 
   useEffect(() => {
     if (shortCode) {
-      startVerification(shortCode); 
+      startVerification(shortCode);
     }
   }, [shortCode]);
 
   const startVerification = (fetchedShortCode) => {
-    const host = `${TRULIOO_HOST}`; 
+    const host = `${TRULIOO_HOST}`;
 
     const workflowOption = Trulioo.workflow()
       .setShortCode(fetchedShortCode)
