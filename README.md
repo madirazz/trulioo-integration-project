@@ -181,12 +181,12 @@ PORT=5000
 
 Start the backend server in development mode.
 
-Using **npm**:
+Using **node**:
 
 
 
    ``` 
-   npm run dev
+   node .\server.js 
    ```
 
 
