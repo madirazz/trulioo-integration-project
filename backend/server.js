@@ -67,19 +67,71 @@ app.get("/get-access-token", ensureAccessToken, (req, res) => {
 app.post("/create-transaction", ensureAccessToken, async (req, res) => {
   try {
     const transactionData = {
-      documentVerification: {
-        enabled: true,
-        documentsAccepted: [
+      "documentVerification": {
+        "enabled": true,
+        "documentsAccepted": [
           {
-            documentType: "DRIVERS_LICENSE",
-            documentOrigin: [{ countryCode: "US" }, { countryCode: "CA" }],
-          },
-          {
-            documentType: "PASSPORT",
-            documentOrigin: [{ countryCode: "US" }, { countryCode: "CA" }],
-          },
+            "documentType": "DRIVERS_LICENSE",
+            "documentOrigin": [
+              {
+                "countryCode": "US",
+                "jurisdictions": [
+                  {
+                    "jurisdictionCode": "CO",
+                    "years": []
+                  }
+                ]
+              }
+            ]
+          }
         ],
+        "acceptFrontImageOnly": false
       },
+      "selfieVerification": {
+        "enabled": true
+      },
+      "documentLivenessOptions": {
+        "skipScreenUsed": false,
+        "skipPrintout": false,
+        "skipPortraitSubstitution": false,
+        "skipAlreadyCropped": false
+      },
+      "matcherConfigs": [
+        {
+          "matchers": [
+            {
+              "token": "FIRST_NAME",
+              "precision": "HIGH_PARTIAL_MATCH"
+            },
+            {
+              "token": "LAST_NAME",
+              "precision": "EXACT_MATCH"
+            }
+          ],
+          "active": true
+        },
+        {
+          "matchers": [
+            {
+              "token": "MIDDLE_NAME",
+              "precision": "HIGH_PARTIAL_MATCH"
+            }
+          ],
+          "active": false
+        }
+      ],
+      "subjectInfo": {
+        "firstName": "John",
+        "middleName": "Smith",
+        "lastName": "Doe",
+        "fullName": "John Smith Doe",
+        "dateOfBirth": "YYYY-MM-DD",
+        "addressLine1": "123 Main Street",
+        "stateProvince": "BC",
+        "city": "Vancouver",
+        "postalCode": "V5V 0A0",
+        "country": "CA"
+      }
     };
 
     const response = await axios.post(
